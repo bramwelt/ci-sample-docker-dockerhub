@@ -20,6 +20,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker/setup-buildx-action@v1
       - uses: docker/metadata-action@v3
+        id: meta
         with:
           images: |
             ${{ env.DOCKER_REPOSITORY }}/${{ env.DOCKER_IMAGE }}
@@ -36,7 +37,7 @@ jobs:
           registry: docker.io
       - uses: docker/build-push-action@v2
         with:
-          tags: ${{ steps.meta.outputs.tags }}
           context: ${{ env.DOCKER_BUILDCONTEXT }}
           file: ${{ env.DOCKER_FILEPATH }}
+          tags: ${{ steps.meta.outputs.tags }}
           push: true
